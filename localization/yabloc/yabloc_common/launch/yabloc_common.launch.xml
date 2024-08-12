@@ -7,6 +7,7 @@
   <arg name="output_ground_markers" default="ground_markers"/>
   <arg name="output_ground_status" default="ground_status"/>
   <arg name="output_near_cloud" default="near_cloud"/>
+  <arg name="ground_server_param_path" default="$(find-pkg-share yabloc_common)/config/ground_server.param.yaml"/>
   <node name="ground_server" pkg="yabloc_common" exec="ground_server_node" output="screen" args="--ros-args --log-level warn">
     <param from="$(var ground_server_param_path)"/>
 
@@ -24,7 +25,7 @@
   <arg name="output_ll2_sign_board" default="ll2_sign_board"/>
   <arg name="output_ll2_bounding_box" default="ll2_bounding_box"/>
   <arg name="output_sign_board_marker" default="sign_board_marker"/>
-
+  <arg name="ll2_decomposer_param_path" default="$(find-pkg-share yabloc_common)/config/ll2_decomposer.param.yaml"/>
   <node name="ll2_decomposer" pkg="yabloc_common" exec="ll2_decomposer_node" output="screen" args="--ros-args --log-level warn">
     <param from="$(var ll2_decomposer_param_path)"/>
 
@@ -33,5 +34,14 @@
     <remap from="~/output/ll2_sign_board" to="$(var output_ll2_sign_board)"/>
     <remap from="~/output/ll2_bounding_box" to="$(var output_ll2_bounding_box)"/>
     <remap from="~/debug/sign_board_marker" to="$(var output_sign_board_marker)"/>
+  </node>
+
+  <!-- rviz -->
+  <arg name="path" default="$(find-pkg-share yabloc_common)/config"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="rviz_config" default="default.rviz"/>
+
+  <node name="rviz2" pkg="rviz2" exec="rviz2" output="log" args="-d $(var path)/$(var rviz_config)">
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
   </node>
 </launch>

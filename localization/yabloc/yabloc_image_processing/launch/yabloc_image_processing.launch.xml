@@ -1,16 +1,20 @@
 <launch>
-  <arg name="src_image"/>
-  <arg name="src_info"/>
+  <arg name="src_image" default="image_raw"/>
+  <arg name="src_info" default="camera_info"/>
   <arg name="resized_image" default="undistorted/image_raw"/>
   <arg name="resized_info" default="undistorted/camera_info"/>
   <arg name="input_pose" default="undistorted"/>
   <arg name="validation" default="true"/>
+  <arg name="undistort_param_path" default="$(find-pkg-share yabloc_image_processing)/config/undistort.param.yaml"/>
+  <arg name="graph_segment_param_path" default="$(find-pkg-share yabloc_image_processing)/config/graph_segment.param.yaml"/>
+  <arg name="segment_filter_param_path" default="$(find-pkg-share yabloc_image_processing)/config/segment_filter.param.yaml"/>
 
   <include file="$(find-pkg-share yabloc_image_processing)/launch/image_processing.launch.xml">
     <arg name="src_image" value="$(var src_image)"/>
     <arg name="src_info" value="$(var src_info)"/>
     <arg name="resized_image" value="$(var resized_image)"/>
     <arg name="resized_info" value="$(var resized_info)"/>
+    <arg name="undistort_param_path" value="$(var undistort_param_path)"/>
   </include>
 
   <group if="$(var validation)">
